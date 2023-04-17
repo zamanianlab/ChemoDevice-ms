@@ -3,6 +3,7 @@ library(ggbeeswarm)
 library(cowplot)
 library(ggtext)
 library(ZamanianLabThemes)
+library(magick)
 library(here)
 
 
@@ -75,4 +76,9 @@ stat_layer <- ci %>%
     NULL
 )
 
-save_plot(here('Fig2/plots/Fig2.pdf'), cue_control, base_width = 4.5, base_height = 2)
+top <- image_read_pdf(here('Fig2', 'subplots', 'Fig2a.pdf'))
+top <- ggdraw() + draw_image(top)
+
+final <- plot_grid(top, cue_control, nrow = 2, rel_heights = c(1, 1.5), labels = c('AUTO'))
+
+save_plot(here('Fig2/plots/Fig2.pdf'), final, base_width = 5.5, base_height = 4)
